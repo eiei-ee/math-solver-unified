@@ -1,0 +1,40 @@
+{
+  "name": "math-solver-unified",
+  "version": "1.0.0",
+  "description": "融合多模态大模型与本地 RAG 知识库的数学题解答助手",
+  "author": "eiei-ee",
+  "main": "./out/main/index.js",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "typecheck": "tsc --noEmit -p tsconfig.node.json && tsc --noEmit -p tsconfig.web.json",
+    "test:unit": "tsc -p tsconfig.test.json && node --test tests/ragCore.test.cjs tests/prompts.test.cjs tests/sse.test.cjs tests/messageMapper.test.cjs tests/providers.test.cjs",
+    "test": "npm run test:unit && npm run typecheck",
+    "build:app": "electron-vite build",
+    "build": "npm test && electron-vite build && electron-builder --dir -c.win.signAndEditExecutable=false",
+    "build:installer": "npm test && electron-vite build && electron-builder",
+    "preview": "electron-vite preview"
+  },
+  "dependencies": {
+    "katex": "^0.16.11",
+    "lucide-react": "^0.460.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-markdown": "^9.0.1",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0",
+    "zustand": "^5.0.1"
+  },
+  "devDependencies": {
+    "@types/katex": "^0.16.7",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8",
+    "electron-vite": "^2.3.0",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.16",
+    "typescript": "^5.6.3"
+  }
+}

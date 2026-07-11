@@ -1,0 +1,17 @@
+appId: com.mathsolver.unified
+productName: 数学题解答助手（知识库版）
+directories:
+  output: dist
+files:
+  - out/**/*
+extraResources:
+  - from: resources/knowledge
+    to: knowledge
+    filter:
+      - "**/*.md"
+win:
+  target: nsis
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  language: 2052

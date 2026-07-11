@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "rootDir": "src",
+    "outDir": ".test-dist",
+    "types": ["node"]
+  },
+  "include": [
+    "src/shared/contracts.ts",
+    "src/shared/providerCatalog.ts",
+    "src/shared/providers.ts",
+    "src/shared/prompts.ts",
+    "src/main/messageMapper.ts",
+    "src/main/ragCore.ts",
+    "src/main/sse.ts"
+  ]
+}
