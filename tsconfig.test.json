@@ -16,6 +16,7 @@
     "src/shared/providers.ts",
     "src/shared/prompts.ts",
     "src/main/messageMapper.ts",
+    "src/main/conversations.ts",
     "src/main/ragCore.ts",
     "src/main/sse.ts"
   ]

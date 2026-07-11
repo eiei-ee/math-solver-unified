@@ -66,7 +66,7 @@ export default function LatexTab() {
       <button
         onClick={handleSubmit}
         disabled={loading || !latex.trim()}
-        className="mt-3 w-full py-2 rounded-lg bg-blue-600 hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed text-sm font-medium flex items-center justify-center gap-2"
+        className="mt-3 w-full py-2 rounded-lg bg-blue-500 hover:bg-blue-400 disabled:opacity-40 disabled:cursor-not-allowed text-ink text-sm font-semibold flex items-center justify-center gap-2"
       >
         <Send size={14} />
         发送

@@ -2,6 +2,7 @@ import { useCallback } from 'react'
 import { buildChatPayload } from '../api/client'
 import { useChatStore } from '../store/chat'
 import { useSettingsStore } from '../store/settings'
+import { useHistoryStore } from '../store/history'
 import type { ChatMessage } from '../store/chat'
 import type { InputType } from '../../shared/contracts'
 
@@ -96,12 +97,14 @@ export function useChatSubmit() {
         finishRequest(requestId)
         cleanup()
       }
+      await useHistoryStore.getState().saveCurrent()
       return true
     } catch (error) {
       if (useChatStore.getState().activeRequestId === requestId) {
         setError(error instanceof Error ? error.message : String(error))
       }
       cleanup()
+      await useHistoryStore.getState().saveCurrent()
       return false
     }
   }, [

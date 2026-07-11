@@ -12,7 +12,9 @@
 - 本地字符 n-gram TF-IDF 检索，展示来源、片段和相似度
 - 可持久化的知识库开关与温度设置
 - 停止生成、重新生成、复制、清空和 Markdown 导出
+- 本地对话历史，支持搜索、新建、打开、重命名和删除
 - 图片压缩、视觉模型能力检查，以及图片题检索关键词
+- 炭黑琥珀主题，提供清晰的焦点、选中和语义状态
 
 ## 工作方式
 
@@ -67,7 +69,7 @@ npm run build
 npm run build:installer
 ```
 
-单元测试覆盖 RAG 切分与检索、三类 Prompt、SSE 分片/尾缓冲、图片附件归属，以及 OpenAI-compatible、Gemini、Claude 请求体。
+单元测试覆盖 RAG 切分与检索、三类 Prompt、SSE 分片/尾缓冲、图片附件归属、对话历史读写，以及 OpenAI-compatible、Gemini、Claude 请求体。
 
 ## 项目结构
 
@@ -82,6 +84,7 @@ src/main/rag.ts                知识文件加载与索引生命周期
 src/main/messageMapper.ts      多模态消息转换
 src/main/sse.ts                增量 SSE 解析
 src/main/settings.ts           版本化设置与 API Key 存储
+src/main/conversations.ts      版本化对话历史与容量限制
 src/main/ipc.ts                IPC 校验、RAG 编排和流式调用
 src/preload/index.ts           最小化 contextBridge
 src/renderer/                  React、Zustand、KaTeX 界面
@@ -96,6 +99,7 @@ docs/                          架构、探索报告和来源说明
 - 切换服务商会清除旧 Key，避免把一个厂商的凭据误发给另一个厂商。
 - Provider、模型、消息角色、消息数量、文本长度、图片格式和大小均在主进程运行时校验。
 - BrowserWindow 开启沙箱、上下文隔离和导航限制；LaTeX 普通文本会先转义。
+- 对话历史保存在 Electron 当前用户目录，最多保留最近 100 条，图片总量限制为 50MB。
 - 知识检索完全离线，但最终题目、历史消息和命中片段会发送给所选模型服务商。
 
 ## 已知边界
@@ -103,7 +107,7 @@ docs/                          架构、探索报告和来源说明
 - 当前 RAG 是小型词法检索，不是语义 embedding；追问“那第二问呢”这类缺少上下文关键词的查询可能命中较差。
 - 内置资料应继续做数学正确性审校，模型答案也必须由使用者复核。
 - 模型名称和第三方 API 可能变化，若服务商下线模型，需要更新注册表。
-- 聊天记录只保存在内存中；导出后可用于复习，但应用重启不会恢复对话。
+- 对话历史当前只保存在本机，不提供云同步或跨设备迁移。
 - 当前没有自动调用真实模型的 CI 测试，避免消耗配额和暴露密钥。
 
 ## 来源与许可

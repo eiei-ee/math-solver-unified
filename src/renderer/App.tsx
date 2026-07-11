@@ -1,17 +1,21 @@
 import { useEffect, useState } from 'react'
-import { BookOpen, Settings } from 'lucide-react'
+import { BookOpen, History, Plus, Settings } from 'lucide-react'
 import InputPanel from './components/InputPanel'
 import AnswerPanel from './components/AnswerPanel'
 import SettingsDialog from './components/SettingsDialog'
+import HistoryDrawer from './components/HistoryDrawer'
 import { useChatStore } from './store/chat'
 import { useSettingsStore } from './store/settings'
 
 export default function App() {
   const [showSettings, setShowSettings] = useState(false)
+  const [showHistory, setShowHistory] = useState(false)
   const loadSettings = useSettingsStore(s => s.load)
   const saveSettings = useSettingsStore(s => s.save)
   const useRag = useSettingsStore(s => s.useRag)
   const setError = useChatStore(s => s.setError)
+  const newConversation = useChatStore(s => s.newConversation)
+  const loading = useChatStore(s => s.loading)
 
   useEffect(() => {
     loadSettings()
@@ -20,7 +24,24 @@ export default function App() {
   return (
     <div className="h-screen flex flex-col">
       <header className="h-12 border-b border-gray-800 flex items-center justify-between px-4 shrink-0">
-        <h1 className="text-sm font-medium text-gray-300">数学题解答助手</h1>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setShowHistory(true)}
+            className="flex h-8 items-center gap-2 rounded-md px-2 text-sm font-medium text-gray-300 hover:bg-gray-800 hover:text-gray-100"
+            title="打开对话历史"
+          >
+            <History size={15} className="text-blue-400" />
+            数学题解答助手
+          </button>
+          <button
+            onClick={newConversation}
+            disabled={loading}
+            className="rounded-md p-2 text-gray-400 hover:bg-gray-800 hover:text-blue-400 disabled:cursor-not-allowed disabled:opacity-40"
+            title="新建对话"
+          >
+            <Plus size={15} />
+          </button>
+        </div>
         <div className="flex items-center gap-2">
           <button
             onClick={() => {
@@ -40,7 +61,7 @@ export default function App() {
           </button>
           <button
             onClick={() => setShowSettings(true)}
-            className="p-1.5 rounded-md hover:bg-gray-800 text-gray-400 hover:text-white transition-colors"
+            className="p-2 rounded-md hover:bg-gray-800 text-gray-400 hover:text-gray-100 transition-colors"
             title="设置"
           >
             <Settings size={16} />
@@ -54,6 +75,7 @@ export default function App() {
       </div>
 
       {showSettings && <SettingsDialog onClose={() => setShowSettings(false)} />}
+      {showHistory && <HistoryDrawer onClose={() => setShowHistory(false)} />}
     </div>
   )
 }

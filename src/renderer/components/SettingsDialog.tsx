@@ -59,7 +59,7 @@ export default function SettingsDialog({ onClose }: { onClose: () => void }) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="settings-title"
-        className="bg-gray-900 border border-gray-700 rounded-xl w-[440px] max-w-full max-h-full overflow-y-auto shadow-2xl"
+        className="bg-gray-900 border border-gray-700 rounded-xl w-[440px] max-w-full max-h-full overflow-y-auto"
       >
         <div className="flex items-center justify-between px-5 py-4 border-b border-gray-800">
           <h2 id="settings-title" className="text-sm font-semibold">模型与知识库设置</h2>
@@ -154,7 +154,7 @@ export default function SettingsDialog({ onClose }: { onClose: () => void }) {
           <button
             onClick={handleSave}
             disabled={saving}
-            className="px-4 py-1.5 text-sm rounded-lg bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white font-medium"
+            className="px-4 py-1.5 text-sm rounded-lg bg-blue-500 hover:bg-blue-400 disabled:opacity-50 text-ink font-semibold"
           >
             {saving ? '保存中…' : '保存'}
           </button>

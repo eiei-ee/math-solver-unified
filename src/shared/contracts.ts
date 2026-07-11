@@ -51,3 +51,26 @@ export interface PickedImage {
   name: string
   dataUrl: string
 }
+
+export interface SavedConversation {
+  id: string
+  title: string
+  createdAt: string
+  updatedAt: string
+  messages: ConversationMessage[]
+}
+
+export interface ConversationSummary {
+  id: string
+  title: string
+  createdAt: string
+  updatedAt: string
+  messageCount: number
+}
+
+export interface ConversationUpsert {
+  id: string
+  title: string
+  createdAt: string
+  messages: ConversationMessage[]
+}

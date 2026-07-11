@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "electron-vite dev",
     "typecheck": "tsc --noEmit -p tsconfig.node.json && tsc --noEmit -p tsconfig.web.json",
-    "test:unit": "tsc -p tsconfig.test.json && node --test tests/ragCore.test.cjs tests/prompts.test.cjs tests/sse.test.cjs tests/messageMapper.test.cjs tests/providers.test.cjs",
+    "test:unit": "tsc -p tsconfig.test.json && node --test tests/ragCore.test.cjs tests/prompts.test.cjs tests/sse.test.cjs tests/messageMapper.test.cjs tests/providers.test.cjs tests/conversations.test.cjs",
     "test": "npm run test:unit && npm run typecheck",
     "build:app": "electron-vite build",
     "build": "npm test && electron-vite build && electron-builder --dir -c.win.signAndEditExecutable=false",

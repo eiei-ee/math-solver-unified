@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import type { ConversationMessage, InputType, RagHit } from '../../shared/contracts'
+import type { ConversationMessage, InputType, RagHit, SavedConversation } from '../../shared/contracts'
 
 export type InputTab = InputType
 export type ChatMessage = ConversationMessage
@@ -11,6 +11,9 @@ interface PendingRag {
 
 interface ChatStore {
   messages: ChatMessage[]
+  conversationId: string
+  conversationTitle: string
+  conversationCreatedAt: string
   loading: boolean
   error: string | null
   activeTab: InputTab
@@ -27,11 +30,23 @@ interface ChatStore {
   setActiveTab: (tab: InputTab) => void
   setImageBase64: (dataUrl: string | null) => void
   setMessages: (messages: ChatMessage[]) => void
+  loadConversation: (conversation: SavedConversation) => void
+  updateConversationMeta: (conversation: SavedConversation) => void
+  newConversation: () => void
   clearMessages: () => void
+}
+
+function newConversationMeta() {
+  return {
+    conversationId: crypto.randomUUID(),
+    conversationTitle: '',
+    conversationCreatedAt: new Date().toISOString()
+  }
 }
 
 export const useChatStore = create<ChatStore>((set, get) => ({
   messages: [],
+  ...newConversationMeta(),
   loading: false,
   error: null,
   activeTab: 'text',
@@ -83,5 +98,32 @@ export const useChatStore = create<ChatStore>((set, get) => ({
   setActiveTab: (tab) => set({ activeTab: tab }),
   setImageBase64: (dataUrl) => set({ imageBase64: dataUrl }),
   setMessages: (messages) => set({ messages, error: null, pendingRag: null }),
-  clearMessages: () => set({ messages: [], error: null, imageBase64: null, pendingRag: null })
+  loadConversation: (conversation) => set({
+    messages: conversation.messages,
+    conversationId: conversation.id,
+    conversationTitle: conversation.title,
+    conversationCreatedAt: conversation.createdAt,
+    error: null,
+    imageBase64: null,
+    pendingRag: null
+  }),
+  updateConversationMeta: (conversation) => set({
+    conversationId: conversation.id,
+    conversationTitle: conversation.title,
+    conversationCreatedAt: conversation.createdAt
+  }),
+  newConversation: () => set({
+    messages: [],
+    ...newConversationMeta(),
+    error: null,
+    imageBase64: null,
+    pendingRag: null
+  }),
+  clearMessages: () => set({
+    messages: [],
+    ...newConversationMeta(),
+    error: null,
+    imageBase64: null,
+    pendingRag: null
+  })
 }))

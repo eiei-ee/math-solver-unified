@@ -8,6 +8,7 @@ import { buildSystemPrompt } from '../shared/prompts'
 import type {
   ChatEvent,
   ChatRequest,
+  ConversationUpsert,
   ConversationMessage,
   InputType,
   PickedImage,
@@ -17,6 +18,13 @@ import { toProviderMessages } from './messageMapper'
 import { retrieveKnowledge } from './rag'
 import { SseDataParser } from './sse'
 import { getPublicSettings, getSettings, updateSettings } from './settings'
+import {
+  deleteConversation,
+  getConversation,
+  listConversations,
+  renameConversation,
+  upsertConversation
+} from './conversations'
 
 const MAX_MESSAGES = 80
 const MAX_MESSAGE_LENGTH = 30_000
@@ -287,6 +295,36 @@ function imageMimeType(path: string): string {
 }
 
 export function registerIpcHandlers(): void {
+  ipcMain.handle('conversations:list', (event, query?: string) => {
+    assertTrustedSender(event)
+    if (query !== undefined && typeof query !== 'string') throw new Error('无效的搜索关键词')
+    return listConversations(query)
+  })
+
+  ipcMain.handle('conversations:get', (event, id: string) => {
+    assertTrustedSender(event)
+    if (typeof id !== 'string') throw new Error('无效的对话编号')
+    return getConversation(id)
+  })
+
+  ipcMain.handle('conversations:save', (event, conversation: ConversationUpsert) => {
+    assertTrustedSender(event)
+    if (!conversation || typeof conversation !== 'object') throw new Error('无效的对话数据')
+    return upsertConversation(conversation)
+  })
+
+  ipcMain.handle('conversations:rename', (event, id: string, title: string) => {
+    assertTrustedSender(event)
+    if (typeof id !== 'string' || typeof title !== 'string') throw new Error('无效的重命名请求')
+    return renameConversation(id, title)
+  })
+
+  ipcMain.handle('conversations:delete', (event, id: string) => {
+    assertTrustedSender(event)
+    if (typeof id !== 'string') throw new Error('无效的对话编号')
+    return deleteConversation(id)
+  })
+
   ipcMain.handle('settings:get', (event) => {
     assertTrustedSender(event)
     return getPublicSettings()
