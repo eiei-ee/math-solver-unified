@@ -2,6 +2,12 @@
 
 一个融合多模态大模型与本地 RAG 知识库的 Electron 桌面应用。它以 `math-solver` 的桌面交互和多模型适配为基础，将 `math-solver-rag` 的知识文档、COSTAR 提示词与 TF-IDF 检索移植为纯 TypeScript 实现，不需要 Python、LangChain、Gradio 或向量数据库。
 
+## 下载与版本关系
+
+Windows 测试包见 [GitHub Releases](https://github.com/eiei-ee/math-solver-unified/releases)。解压完整 ZIP 后运行应用，首次使用需自行配置模型服务商和 API Key。模型调用可能产生所选服务商的费用。
+
+本仓是数学助手系列的主维护入口。`math-solver` 为 Electron 历史基线，`math-solver-rag` 为 Python RAG 原型；旧仓保留历史说明和来源，不再作为最新版本入口。
+
 ## 主要功能
 
 - 文字、图片、LaTeX 三种题目输入
@@ -117,4 +123,4 @@ docs/                          架构、探索报告和来源说明
 - [`eiei-ee/math-solver`](https://github.com/eiei-ee/math-solver) @ `1484144bbaedaaf2418874c32792f3b728158b63`
 - [`eiei-ee/math-solver-rag`](https://github.com/eiei-ee/math-solver-rag) @ `b143fa4e5db9d2670bdc3f0f63b011920c8741f8`
 
-详细迁移关系见 [`docs/provenance.md`](docs/provenance.md)，完整代码探索见 [`docs/REPOSITORY_EXPLORATION.md`](docs/REPOSITORY_EXPLORATION.md)。两个源仓在上述提交均未包含开源许可证；本仓也暂不附加许可证。公开发布前应由权利人明确选择许可证并确认知识文档的再分发权。
+详细迁移关系见 [`docs/provenance.md`](docs/provenance.md)，完整代码探索见 [`docs/REPOSITORY_EXPLORATION.md`](docs/REPOSITORY_EXPLORATION.md)。仓库权利人于 2026-10-12 决定暂不授予开源许可证，保留权利，详见 [RIGHTS.md](RIGHTS.md)。知识文档和第三方依赖的权利边界单独保留，不随应用公开展示而新增授权。
